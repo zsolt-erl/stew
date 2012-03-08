@@ -1,0 +1,12 @@
+{application, stew,
+ [
+  {description, ""},
+  {vsn, "1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {mod, { stew_app, []}},
+  {env, []}
+ ]}.

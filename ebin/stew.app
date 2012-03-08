@@ -1,0 +1,9 @@
+{application,stew,
+             [{description,[]},
+              {vsn,"1"},
+              {registered,[]},
+              {applications,[kernel,stdlib]},
+              {mod,{stew_app,[]}},
+              {env,[]},
+              {modules,[main_manager,main_sup,pool_manager,pool_sup,stew,
+                        stew_app,stew_sup,supervisor2,worker]}]}.

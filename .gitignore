@@ -1,0 +1,11 @@
+*~
+*#
+*.swp
+*.o
+*.so
+*.log
+*.access
+*.access.old
+*.beam
+erl_crash.dump
+/localhost.auth
