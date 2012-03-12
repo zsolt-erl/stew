@@ -55,6 +55,7 @@ start_link(ManagerPid) ->
 %% @end
 %%--------------------------------------------------------------------
 init(ManagerPid) ->
+    process_flag(trap_exit, true),
     ManagerPid ! {self(), worker_ready},
     {ok, #state{}}.
 
@@ -104,7 +105,12 @@ handle_cast(_Msg, State) ->
 %%                                   {stop, Reason, State}
 %% @end
 %%--------------------------------------------------------------------
-handle_info(_Info, State) ->
+handle_info(shutdown, State)->
+    ?d("~p is shutting down~n", [self()]),
+    {stop, normal, State};
+
+handle_info(Info, State) ->
+    ?d("~p got info:~p~n", [self(), Info]),
     {noreply, State}.
 
 %%--------------------------------------------------------------------
@@ -119,6 +125,7 @@ handle_info(_Info, State) ->
 %% @end
 %%--------------------------------------------------------------------
 terminate(_Reason, _State) ->
+    ?d("~p terminating~n",[self()]),
     ok.
 
 %%--------------------------------------------------------------------

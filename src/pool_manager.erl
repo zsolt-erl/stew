@@ -8,9 +8,6 @@
 %%% Created :  4 Mar 2012 by Zsolt Keszthelyi <zsolt@uniss>
 %%%-------------------------------------------------------------------
 
-%%% TODO: remove_workers call
-
-
 -module(pool_manager).
 
 -behaviour(gen_server).
@@ -136,6 +133,12 @@ handle_call( {add_workers, Num}, _From, #state{poolspec = PoolSpec} = State) ->
     Reply = ok,
     {reply, Reply, State};
 
+handle_call( {remove_workers, Num}, _From, #state{poolspec = PoolSpec} = State) ->
+    remove_workers_internal(PoolSpec, State#state.workers, Num),
+    Reply = ok,
+    {reply, Reply, State};
+
+
 handle_call(_Request, _From, State) ->
     Reply = ok,
     {reply, Reply, State}.
@@ -222,3 +225,11 @@ add_workers_internal(PoolSpec, Num) ->
 				   {Pid, 0}
 			   end,
 			   lists:seq(1, Num)).
+
+remove_workers_internal(PoolSpec, ExistingWorkers, Num) ->
+    lists:foldl(fun
+		    (_, []) -> [];
+		    (_, [{Pid, _JobNum}|Rest]) -> Pid ! shutdown, Rest
+		end,
+		ExistingWorkers,
+		lists:seq(1, Num)).

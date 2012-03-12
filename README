@@ -1,3 +1,9 @@
 Beginnings of a worker pool manager app.
 This is not a general worker pool. It's made to fulfill specific requirements.
 
+TODO:
+- worker needs to finish all jobs before shutting down (empty out message queue),
+  rewrite worker as a gen_fsm?
+- worker behavior
+- pass pool state to worker at init
+- integrate with gen_bunny
